@@ -8,18 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		3261EEFD2BAC3E7400AEC1AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EEFC2BAC3E7400AEC1AA /* AppDelegate.swift */; };
-		3261EF012BAC3E7400AEC1AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF002BAC3E7400AEC1AA /* ViewController.swift */; };
 		3261EF062BAC3E7500AEC1AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3261EF052BAC3E7500AEC1AA /* Assets.xcassets */; };
 		3261EF092BAC3E7500AEC1AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3261EF072BAC3E7500AEC1AA /* LaunchScreen.storyboard */; };
+		3261EF162BAC40BC00AEC1AA /* ReviewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF152BAC40BC00AEC1AA /* ReviewsListViewController.swift */; };
+		3261EF182BAC40D700AEC1AA /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF172BAC40D700AEC1AA /* ReviewCell.swift */; };
+		3261EF1A2BAC40EF00AEC1AA /* ReviewListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF192BAC40EF00AEC1AA /* ReviewListHeaderView.swift */; };
+		3261EF1D2BAC412D00AEC1AA /* ReviewsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF1C2BAC412D00AEC1AA /* ReviewsListViewModel.swift */; };
+		3261EF202BAC48D500AEC1AA /* ReviewsListViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF1F2BAC48D500AEC1AA /* ReviewsListViewControllerFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3261EEF92BAC3E7400AEC1AA /* YourReviews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourReviews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3261EEFC2BAC3E7400AEC1AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3261EF002BAC3E7400AEC1AA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3261EF052BAC3E7500AEC1AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3261EF082BAC3E7500AEC1AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3261EF0A2BAC3E7500AEC1AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3261EF152BAC40BC00AEC1AA /* ReviewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewController.swift; sourceTree = "<group>"; };
+		3261EF172BAC40D700AEC1AA /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		3261EF192BAC40EF00AEC1AA /* ReviewListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewListHeaderView.swift; sourceTree = "<group>"; };
+		3261EF1C2BAC412D00AEC1AA /* ReviewsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewModel.swift; sourceTree = "<group>"; };
+		3261EF1F2BAC48D500AEC1AA /* ReviewsListViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewControllerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +88,45 @@
 		3261EF122BAC3F7800AEC1AA /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				3261EF002BAC3E7400AEC1AA /* ViewController.swift */,
+				3261EF132BAC408A00AEC1AA /* List */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		3261EF132BAC408A00AEC1AA /* List */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF1E2BAC48C700AEC1AA /* Factory */,
+				3261EF142BAC40B000AEC1AA /* View */,
+				3261EF1B2BAC412000AEC1AA /* ViewModel */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		3261EF142BAC40B000AEC1AA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF172BAC40D700AEC1AA /* ReviewCell.swift */,
+				3261EF192BAC40EF00AEC1AA /* ReviewListHeaderView.swift */,
+				3261EF152BAC40BC00AEC1AA /* ReviewsListViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3261EF1B2BAC412000AEC1AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF1C2BAC412D00AEC1AA /* ReviewsListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3261EF1E2BAC48C700AEC1AA /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF1F2BAC48D500AEC1AA /* ReviewsListViewControllerFactory.swift */,
+			);
+			path = Factory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,8 +199,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3261EF012BAC3E7400AEC1AA /* ViewController.swift in Sources */,
+				3261EF1D2BAC412D00AEC1AA /* ReviewsListViewModel.swift in Sources */,
+				3261EF202BAC48D500AEC1AA /* ReviewsListViewControllerFactory.swift in Sources */,
+				3261EF162BAC40BC00AEC1AA /* ReviewsListViewController.swift in Sources */,
+				3261EF182BAC40D700AEC1AA /* ReviewCell.swift in Sources */,
 				3261EEFD2BAC3E7400AEC1AA /* AppDelegate.swift in Sources */,
+				3261EF1A2BAC40EF00AEC1AA /* ReviewListHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
