@@ -70,6 +70,9 @@ final class ReviewsListViewController: UIViewController {
         viewModel.subscribeOnCellSelectionEvent(cellSelectionEventPublisher.eraseToAnyPublisher())
         
         subscriptions = [
+            viewModel.$header.receive(on: DispatchQueue.main).sink { [collectionView] _ in
+                collectionView.reloadData()
+            },
             viewModel.$reviews.receive(on: DispatchQueue.main).sink { [dataSource] reviews in
                 var snapshot = NSDiffableDataSourceSnapshot<Int, CellModel>()
                 snapshot.appendSections([0])
@@ -87,6 +90,7 @@ final class ReviewsListViewController: UIViewController {
             header.setFilterTitle(model.filterTitle)
             header.setTopWordsTitle(model.topWordsTitle)
             header.setTopWords(model.topWords)
+            header.setFilterButtonPressEventPublisher(model.filterButtonPressEventPublisher)
         }
         
         let cellRegistration = SearchResultCellRegistration { cell, _, model in
@@ -128,7 +132,6 @@ final class ReviewsListViewController: UIViewController {
                 alignment: .top
             )
             sectionHeader.pinToVisibleBounds = true
-            
             section.boundarySupplementaryItems = [sectionHeader]
             
             return section

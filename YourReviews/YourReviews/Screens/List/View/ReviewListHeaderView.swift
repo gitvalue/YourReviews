@@ -1,3 +1,4 @@
+import Combine
 import UIKit
 
 final class ReviewListHeaderView: UICollectionReusableView {
@@ -8,16 +9,20 @@ final class ReviewListHeaderView: UICollectionReusableView {
     
     private let stackView = UIStackView()
     
-    private let filterImageView = UIImageView()
+    private let filterButton = UIButton()
     private let filterTitleLabel = UILabel()
     
     private let topWordsTitleLabel = UILabel()
     private let topWordsLabel = UILabel()
     
+    private var filterButtonPressEventPublisher: PassthroughSubject<Void, Never>?
+    
     // MARK: - Initialisers
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        backgroundColor = .systemBackground
         
         setUpSubviews()
         setUpConstraints()
@@ -29,6 +34,15 @@ final class ReviewListHeaderView: UICollectionReusableView {
     }
     
     // MARK: - Public
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        filterTitleLabel.text = nil
+        topWordsTitleLabel.text = nil
+        topWordsLabel.text = nil
+        filterButtonPressEventPublisher = nil
+    }
     
     func setFilterTitle(_ text: String) {
         filterTitleLabel.text = text
@@ -42,6 +56,10 @@ final class ReviewListHeaderView: UICollectionReusableView {
         topWordsLabel.text = text
     }
     
+    func setFilterButtonPressEventPublisher(_ publisher: PassthroughSubject<Void, Never>) {
+        filterButtonPressEventPublisher = publisher
+    }
+    
     // MARK: - Private
     
     private func setUpSubviews() {
@@ -53,8 +71,9 @@ final class ReviewListHeaderView: UICollectionReusableView {
         filterStackView.axis = .horizontal
         stackView.addArrangedSubview(filterStackView)
         
-        filterStackView.addArrangedSubview(filterImageView)
-        filterImageView.image = UIImage(systemName: "slider.horizontal.3")
+        filterStackView.addArrangedSubview(filterButton)
+        filterButton.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
+        filterButton.addTarget(self, action: #selector(onFilterButtonPress), for: .touchUpInside)
         filterStackView.addArrangedSubview(filterTitleLabel)
         
         stackView.addArrangedSubview(topWordsTitleLabel)
@@ -70,5 +89,10 @@ final class ReviewListHeaderView: UICollectionReusableView {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    @objc
+    private func onFilterButtonPress() {
+        filterButtonPressEventPublisher?.send()
     }
 }

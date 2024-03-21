@@ -20,6 +20,10 @@
 		3261EF2A2BAC638E00AEC1AA /* ReviewDetailsViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF292BAC638E00AEC1AA /* ReviewDetailsViewControllerFactory.swift */; };
 		3261EF2D2BAC63E900AEC1AA /* ReviewsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF2C2BAC63E900AEC1AA /* ReviewsListRouter.swift */; };
 		3261EF312BAC64C600AEC1AA /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF302BAC64C600AEC1AA /* UIViewController+Extensions.swift */; };
+		3261EF352BAC73CF00AEC1AA /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF342BAC73CF00AEC1AA /* FiltersViewController.swift */; };
+		3261EF382BAC764A00AEC1AA /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF372BAC764A00AEC1AA /* FiltersViewModel.swift */; };
+		3261EF3B2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF3A2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift */; };
+		3261EF3E2BAC899F00AEC1AA /* FiltersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF3D2BAC899F00AEC1AA /* FiltersRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +42,10 @@
 		3261EF292BAC638E00AEC1AA /* ReviewDetailsViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsViewControllerFactory.swift; sourceTree = "<group>"; };
 		3261EF2C2BAC63E900AEC1AA /* ReviewsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListRouter.swift; sourceTree = "<group>"; };
 		3261EF302BAC64C600AEC1AA /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		3261EF342BAC73CF00AEC1AA /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		3261EF372BAC764A00AEC1AA /* FiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
+		3261EF3A2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewControllerFactory.swift; sourceTree = "<group>"; };
+		3261EF3D2BAC899F00AEC1AA /* FiltersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				3261EF212BAC5D8400AEC1AA /* Details */,
+				3261EF322BAC73BE00AEC1AA /* Filters */,
 				3261EF132BAC408A00AEC1AA /* List */,
 			);
 			path = Screens;
@@ -200,6 +209,49 @@
 			path = UIViewController;
 			sourceTree = "<group>";
 		};
+		3261EF322BAC73BE00AEC1AA /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF392BAC767000AEC1AA /* Factory */,
+				3261EF3C2BAC7C3000AEC1AA /* Router */,
+				3261EF332BAC73C400AEC1AA /* View */,
+				3261EF362BAC763F00AEC1AA /* ViewModel */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
+		3261EF332BAC73C400AEC1AA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF342BAC73CF00AEC1AA /* FiltersViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3261EF362BAC763F00AEC1AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF372BAC764A00AEC1AA /* FiltersViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3261EF392BAC767000AEC1AA /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF3A2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
+		3261EF3C2BAC7C3000AEC1AA /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF3D2BAC899F00AEC1AA /* FiltersRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -274,12 +326,16 @@
 				3261EF202BAC48D500AEC1AA /* ReviewsListViewControllerFactory.swift in Sources */,
 				3261EF162BAC40BC00AEC1AA /* ReviewsListViewController.swift in Sources */,
 				3261EF272BAC5DC100AEC1AA /* ReviewDetailsViewModel.swift in Sources */,
+				3261EF3E2BAC899F00AEC1AA /* FiltersRouter.swift in Sources */,
 				3261EF242BAC5DA300AEC1AA /* ReviewDetailsViewController.swift in Sources */,
 				3261EF182BAC40D700AEC1AA /* ReviewCell.swift in Sources */,
 				3261EF312BAC64C600AEC1AA /* UIViewController+Extensions.swift in Sources */,
 				3261EF2D2BAC63E900AEC1AA /* ReviewsListRouter.swift in Sources */,
 				3261EEFD2BAC3E7400AEC1AA /* AppDelegate.swift in Sources */,
+				3261EF3B2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift in Sources */,
 				3261EF1A2BAC40EF00AEC1AA /* ReviewListHeaderView.swift in Sources */,
+				3261EF352BAC73CF00AEC1AA /* FiltersViewController.swift in Sources */,
+				3261EF382BAC764A00AEC1AA /* FiltersViewModel.swift in Sources */,
 				3261EF2A2BAC638E00AEC1AA /* ReviewDetailsViewControllerFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,8 +485,8 @@
 				INFOPLIST_FILE = YourReviews/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -459,8 +515,8 @@
 				INFOPLIST_FILE = YourReviews/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
