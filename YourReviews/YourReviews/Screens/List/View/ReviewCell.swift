@@ -5,6 +5,7 @@ final class ReviewCell: UICollectionViewCell {
     // MARK: - Properties
     
     private let stackView = UIStackView()
+    private let separatorView = UIView()
     private let titleLabel = UILabel()
     private let authorLabel = UILabel()
     private let textPreviewLabel = UILabel()
@@ -49,6 +50,10 @@ final class ReviewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .leading
+        stackView.spacing = 8.0
+        
+//        stackView.addArrangedSubview(separatorView)
+//        separatorView.backgroundColor = .separator
         
         stackView.addArrangedSubview(ratingVersionLabel)
         ratingVersionLabel.font = .italicSystemFont(ofSize: 18)
@@ -66,6 +71,8 @@ final class ReviewCell: UICollectionViewCell {
     }
     
     private func setUpConstraints() {
+        
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let margin: CGFloat = 8.0
         NSLayoutConstraint.activate([

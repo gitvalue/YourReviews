@@ -8,13 +8,14 @@ final class ReviewsListViewController: UIViewController {
     private typealias CellModel = ReviewsListViewModel.ReviewCellModel
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, CellModel>
     private typealias SearchResultCellRegistration = UICollectionView.CellRegistration<ReviewCell, CellModel>
-    private typealias SearchResultsHeaderRegistration = UICollectionView.SupplementaryRegistration<ReviewListHeaderView>
     
     // MARK: - Events
     
     private let cellSelectionEventPublisher = PassthroughSubject<CellModel, Never>()
     
     // MARK: - Properties
+    
+    private let headerView = ReviewListHeaderView()
     
     private lazy var dataSource: DataSource = createDataSource()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -48,18 +49,42 @@ final class ReviewsListViewController: UIViewController {
         setUpBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        headerView.layer.shadowColor = UIColor.black.cgColor
+        headerView.layer.shadowOpacity = 0.2
+        headerView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        headerView.layer.shadowRadius = 1
+        headerView.layer.shadowPath = UIBezierPath(rect: headerView.bounds).cgPath
+    }
+    
     // MARK: - Private
     
     private func setUpSubviews() {
+        view.addSubview(headerView)
+        
         view.addSubview(collectionView)
         collectionView.dataSource = dataSource
         collectionView.delegate = self
     }
     
     private func setUpConstraints() {
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -70,8 +95,11 @@ final class ReviewsListViewController: UIViewController {
         viewModel.subscribeOnCellSelectionEvent(cellSelectionEventPublisher.eraseToAnyPublisher())
         
         subscriptions = [
-            viewModel.$header.receive(on: DispatchQueue.main).sink { [collectionView] _ in
-                collectionView.reloadData()
+            viewModel.$header.receive(on: DispatchQueue.main).sink { [headerView] model in
+                headerView.setFilterTitle(model.filterTitle)
+                headerView.setTopWordsTitle(model.topWordsTitle)
+                headerView.setTopWords(model.topWords)
+                headerView.setFilterButtonPressEventPublisher(model.filterButtonPressEventPublisher)
             },
             viewModel.$reviews.receive(on: DispatchQueue.main).sink { [dataSource] reviews in
                 var snapshot = NSDiffableDataSourceSnapshot<Int, CellModel>()
@@ -84,15 +112,6 @@ final class ReviewsListViewController: UIViewController {
     }
     
     private func createDataSource() -> DataSource {
-        let headerRegistration = SearchResultsHeaderRegistration(elementKind: sectionHeaderElementKind) { [weak self] header, _, _ in
-            guard let model = self?.viewModel.header else { return }
-            
-            header.setFilterTitle(model.filterTitle)
-            header.setTopWordsTitle(model.topWordsTitle)
-            header.setTopWords(model.topWords)
-            header.setFilterButtonPressEventPublisher(model.filterButtonPressEventPublisher)
-        }
-        
         let cellRegistration = SearchResultCellRegistration { cell, _, model in
             cell.setRating(model.rating)
             cell.setAuthor(model.author)
@@ -104,38 +123,14 @@ final class ReviewsListViewController: UIViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
-        result.supplementaryViewProvider = { view, _, index in
-            return view.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
-        }
-        
         return result
     }
     
     private func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout() { [sectionHeaderElementKind] sectionIndex, layoutEnvironment in
-            var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
-            configuration.headerMode = .supplementary
-            configuration.backgroundColor = .clear
-            
-            let section = NSCollectionLayoutSection.list(
-                using: configuration,
-                layoutEnvironment: layoutEnvironment
-            )
-            
-            let headerSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(61.0)
-            )
-            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
-                elementKind: sectionHeaderElementKind,
-                alignment: .top
-            )
-            sectionHeader.pinToVisibleBounds = true
-            section.boundarySupplementaryItems = [sectionHeader]
-            
-            return section
-        }
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        configuration.backgroundColor = .clear
+        
+        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }
 

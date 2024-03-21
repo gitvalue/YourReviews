@@ -22,7 +22,7 @@ final class FiltersViewController: UIViewController {
     init(viewModel: FiltersViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        preferredContentSize = CGSize(width: super.preferredContentSize.width, height: 200.0)
+        preferredContentSize = CGSize(width: super.preferredContentSize.width, height: 170.0)
     }
         
     @available(*, unavailable)
@@ -69,7 +69,7 @@ final class FiltersViewController: UIViewController {
         
         starsStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            starsStackView.topAnchor.constraint(equalTo: numberOfStarsTitleLabel.bottomAnchor, constant: 16.0),
+            starsStackView.topAnchor.constraint(equalTo: numberOfStarsTitleLabel.bottomAnchor, constant: 4.0),
             starsStackView.leadingAnchor.constraint(equalTo: numberOfStarsTitleLabel.leadingAnchor),
             starsStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0)
         ])

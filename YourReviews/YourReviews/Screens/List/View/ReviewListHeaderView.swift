@@ -1,16 +1,13 @@
 import Combine
 import UIKit
 
-final class ReviewListHeaderView: UICollectionReusableView {
+final class ReviewListHeaderView: UIView {
     
     // MARK: - Properties
-    
-    override var reuseIdentifier: String? { String(describing: self) }
     
     private let stackView = UIStackView()
     
     private let filterButton = UIButton()
-    private let filterTitleLabel = UILabel()
     
     private let topWordsTitleLabel = UILabel()
     private let topWordsLabel = UILabel()
@@ -35,17 +32,14 @@ final class ReviewListHeaderView: UICollectionReusableView {
     
     // MARK: - Public
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        filterTitleLabel.text = nil
-        topWordsTitleLabel.text = nil
-        topWordsLabel.text = nil
-        filterButtonPressEventPublisher = nil
+        filterButton.layer.cornerRadius = filterButton.frame.height / 2
     }
     
     func setFilterTitle(_ text: String) {
-        filterTitleLabel.text = text
+        filterButton.setTitle(text, for: .normal)
     }
     
     func setTopWordsTitle(_ text: String) {
@@ -66,28 +60,43 @@ final class ReviewListHeaderView: UICollectionReusableView {
         addSubview(stackView)
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.spacing = 10.0
         
+        let labelsStackView = UIStackView()
+        labelsStackView.axis = .vertical
+        labelsStackView.alignment = .center
+        stackView.addArrangedSubview(labelsStackView)
+        
+        labelsStackView.addArrangedSubview(topWordsTitleLabel)
+        topWordsLabel.font = .systemFont(ofSize: 24.0, weight: .semibold)
+        labelsStackView.addArrangedSubview(topWordsLabel)
+        topWordsLabel.numberOfLines = 0
+
         let filterStackView = UIStackView()
         filterStackView.axis = .horizontal
         stackView.addArrangedSubview(filterStackView)
         
         filterStackView.addArrangedSubview(filterButton)
+        filterButton.setTitleColor(.link, for: .normal)
+        filterButton.layer.borderColor = UIColor.link.cgColor
+        filterButton.layer.borderWidth = 2.0
         filterButton.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
         filterButton.addTarget(self, action: #selector(onFilterButtonPress), for: .touchUpInside)
-        filterStackView.addArrangedSubview(filterTitleLabel)
-        
-        stackView.addArrangedSubview(topWordsTitleLabel)
-        stackView.addArrangedSubview(topWordsLabel)
-        topWordsLabel.numberOfLines = 0
     }
     
     private func setUpConstraints() {
+        filterButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            filterButton.widthAnchor.constraint(equalToConstant: 90.0),
+            filterButton.heightAnchor.constraint(equalToConstant: 30.0)
+        ])
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10.0)
         ])
     }
     

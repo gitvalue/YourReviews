@@ -5,6 +5,7 @@ final class ReviewDetailsViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let scrollView = UIScrollView()
     private let ratingLabel = UILabel()
     private let authorLabel = UILabel()
     private let titleLabel = UILabel()
@@ -37,29 +38,44 @@ final class ReviewDetailsViewController: UIViewController {
         setUpBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+        
     // MARK: - Private
     
     private func setUpSubviews() {
-        view.addSubview(ratingLabel)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(ratingLabel)
         ratingLabel.font = .italicSystemFont(ofSize: 18.0)
         
-        view.addSubview(authorLabel)
+        scrollView.addSubview(authorLabel)
         authorLabel.font = .systemFont(ofSize: 18.0)
         
-        view.addSubview(titleLabel)
+        scrollView.addSubview(titleLabel)
         titleLabel.numberOfLines = 0
         titleLabel.font = .boldSystemFont(ofSize: 22)
         
-        view.addSubview(contentLabel)
+        scrollView.addSubview(contentLabel)
         contentLabel.numberOfLines = 0
     }
     
     private func setUpConstraints() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
         ratingLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            ratingLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0),
-            ratingLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
-            ratingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0)
+            ratingLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 8.0),
+            ratingLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
+            ratingLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0)
         ])
 
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +97,8 @@ final class ReviewDetailsViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
             contentLabel.leadingAnchor.constraint(equalTo: ratingLabel.leadingAnchor),
-            contentLabel.trailingAnchor.constraint(equalTo: ratingLabel.trailingAnchor)
+            contentLabel.trailingAnchor.constraint(equalTo: ratingLabel.trailingAnchor),
+            contentLabel.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor, constant: -16.0)
         ])
     }
     
