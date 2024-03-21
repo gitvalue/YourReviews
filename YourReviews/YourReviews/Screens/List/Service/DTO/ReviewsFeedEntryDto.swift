@@ -1,6 +1,6 @@
 import Foundation
 
-struct ReviewsFeedEntryDto: Decodable {
+struct ReviewsFeedEntryDto: Decodable, Hashable {
     let author: ReviewsFeedEntryAuthorDto
     let version: String
     let rating: String

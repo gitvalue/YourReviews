@@ -11,6 +11,7 @@ final class ReviewsListViewController: UIViewController {
     
     // MARK: - Events
     
+    private let pullToRefreshEventPublisher = PassthroughSubject<Void, Never>()
     private let cellSelectionEventPublisher = PassthroughSubject<CellModel, Never>()
     
     // MARK: - Properties
@@ -72,6 +73,9 @@ final class ReviewsListViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.dataSource = dataSource
         collectionView.delegate = self
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     
     private func setUpConstraints() {
@@ -92,9 +96,16 @@ final class ReviewsListViewController: UIViewController {
     }
     
     private func setUpBindings() {
+        viewModel.subscribeOnPullToRefreshEvent(pullToRefreshEventPublisher.eraseToAnyPublisher())
         viewModel.subscribeOnCellSelectionEvent(cellSelectionEventPublisher.eraseToAnyPublisher())
         
         subscriptions = [
+            viewModel.refreshEndEventPublisher.receive(on: DispatchQueue.main).sink { [collectionView] in
+                collectionView.refreshControl?.endRefreshing()
+            },
+            viewModel.alertEventPublisher.receive(on: DispatchQueue.main).sink { [weak self] model in
+                self?.showAlert(model.title, model.mesage, model.action)
+            },
             viewModel.$header.receive(on: DispatchQueue.main).sink { [headerView] model in
                 headerView.setFilterTitle(model.filterTitle)
                 headerView.setTopWordsTitle(model.topWordsTitle)
@@ -131,6 +142,17 @@ final class ReviewsListViewController: UIViewController {
         configuration.backgroundColor = .clear
         
         return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
+    
+    private func showAlert(_ title: String, _ message: String, _ dismissButtonTitle: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: dismissButtonTitle, style: .default))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc
+    private func onRefresh(_ sender: UIRefreshControl) {
+        pullToRefreshEventPublisher.send()
     }
 }
 

@@ -2,7 +2,7 @@ import UIKit
 
 protocol ReviewsListRouterProtocol: AnyObject {
     func openFilters(_ filter: ReviewsFilterProtocol)
-    func openDetails(withRating rating: String, author: String, title: String, review: String)
+    func openDetails(_ review: ReviewsFeedEntryDto)
 }
 
 final class ReviewsListRouter: ReviewsListRouterProtocol {
@@ -29,9 +29,9 @@ final class ReviewsListRouter: ReviewsListRouterProtocol {
         rootViewController?.present(viewController, animated: true)
     }
     
-    func openDetails(withRating rating: String, author: String, title: String, review: String) {
+    func openDetails(_ review: ReviewsFeedEntryDto) {
         let factory = ReviewDetailsViewControllerFactory()
-        let viewController = factory.create(withRating: rating, author: author, title: title, review: review)
+        let viewController = factory.create(withReview: review)
         rootViewController?.present(viewController: viewController, animated: true, pushIfPossible: true)
     }
 }

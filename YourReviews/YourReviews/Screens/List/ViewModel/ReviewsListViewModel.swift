@@ -17,9 +17,23 @@ final class ReviewsListViewModel {
         let author: String
         let title: String
         let review: String
+        
+        fileprivate let dto: ReviewsFeedEntryDto
+        
+        fileprivate init(dto: ReviewsFeedEntryDto) {
+            let formatter = ReviewFormatter(review: dto)
+            rating = formatter.rating
+            author = formatter.author
+            title = formatter.title
+            review = formatter.content
+            self.dto = dto
+        }
     }
     
     // MARK: - Properties
+    
+    let alertEventPublisher = PassthroughSubject<(title: String, mesage: String, action: String), Never>()
+    let refreshEndEventPublisher = PassthroughSubject<Void, Never>()
     
     @Published
     private(set) var header: ReviewsListHeaderModel
@@ -64,7 +78,15 @@ final class ReviewsListViewModel {
     
     func subscribeOnCellSelectionEvent(_ publisher: AnyPublisher<ReviewCellModel, Never>) {
         publisher.sink { [router] model in
-            router.openDetails(withRating: model.rating, author: model.author, title: model.title, review: model.review)
+            router.openDetails(model.dto)
+        }.store(
+            in: &subscriptions
+        )
+    }
+    
+    func subscribeOnPullToRefreshEvent(_ publisher: AnyPublisher<Void, Never>) {
+        publisher.sink { [weak self] in
+            self?.fetchFeed()
         }.store(
             in: &subscriptions
         )
@@ -90,9 +112,15 @@ final class ReviewsListViewModel {
     
     private func fetchFeed() {
         service.getReviewsFeed(forAppWithId: "474495017").sink(
-            receiveCompletion: { _ in },
+            receiveCompletion: { [weak self] result in
+                self?.refreshEndEventPublisher.send()
+                if case .failure = result {
+                    self?.alertEventPublisher.send((title: "Error", mesage: "Something went wrong", action: "Dismiss"))
+                }
+            },
             receiveValue: { [weak self] feed in
                 self?.feed = feed
+                self?.refreshEndEventPublisher.send()
             }
         ).store(
             in: &subscriptions
@@ -113,7 +141,7 @@ final class ReviewsListViewModel {
                 wordsHistogram[word, default: 0] += 1
             }
             
-            reviews.append(cellModel(fromDto: entry))
+            reviews.append(ReviewCellModel(dto: entry))
         }
         
         let top3Words = wordsHistogram.sorted {
@@ -130,19 +158,5 @@ final class ReviewsListViewModel {
         )
         
         self.reviews = reviews
-    }
-        
-    private func cellModel(fromDto dto: ReviewsFeedEntryDto) -> ReviewCellModel {
-        let numberOfStars = Int(dto.rating) ?? 0
-        let ratingPrefix = Array<String>(repeating: "⭐️", count: numberOfStars).joined()
-        let ratingSuffix = "(ver: \(dto.version))"
-        let rating = ratingPrefix + ratingSuffix
-        
-        return ReviewCellModel(
-            rating: rating,
-            author: dto.author.name,
-            title: dto.title,
-            review: dto.content
-        )
     }
 }

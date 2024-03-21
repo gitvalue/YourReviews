@@ -1,6 +1,6 @@
 import Foundation
 
-struct ReviewsFeedEntryAuthorDto: Decodable {
+struct ReviewsFeedEntryAuthorDto: Decodable, Hashable {
     let name: String
     
     init(from decoder: Decoder) throws {

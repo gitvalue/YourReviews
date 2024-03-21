@@ -19,10 +19,11 @@ final class ReviewDetailsViewModel {
     
     // MARK: - Initialisers
     
-    init(rating: String, author: String, title: String, review: String) {
-        self.rating = rating
-        self.author = author
-        self.title = title
-        self.review = review
+    init(review: ReviewsFeedEntryDto) {
+        let formatter = ReviewFormatter(review: review)
+        rating = formatter.rating
+        author = formatter.author
+        title = formatter.title
+        self.review = formatter.content
     }
 }
