@@ -39,11 +39,13 @@ final class ReviewsListViewModel {
     private let filterButtonPressEventPublisher: PassthroughSubject<Void, Never>
     
     private var subscriptions: [AnyCancellable] = []
+    private let service: ReviewsFeedServiceProtocol
     private let router: ReviewsListRouterProtocol
     
     // MARK: - Initialisers
     
-    init(router: ReviewsListRouterProtocol) {
+    init(service: ReviewsFeedServiceProtocol, router: ReviewsListRouterProtocol) {
+        self.service = service
         self.router = router
         
         let filterButtonPressEventPublisher = PassthroughSubject<Void, Never>()
@@ -57,6 +59,15 @@ final class ReviewsListViewModel {
         )
         
         subscribeToFilterButtonPressEvent()
+        
+        service.getReviewsFeed(forAppWithId: "474495017").sink(
+            receiveCompletion: { _ in },
+            receiveValue: { feed in
+                while false {}
+            }
+        ).store(
+            in: &subscriptions
+        )
     }
     
     // MARK: - Public

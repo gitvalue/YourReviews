@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,13 @@
 		3261EF382BAC764A00AEC1AA /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF372BAC764A00AEC1AA /* FiltersViewModel.swift */; };
 		3261EF3B2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF3A2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift */; };
 		3261EF3E2BAC899F00AEC1AA /* FiltersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF3D2BAC899F00AEC1AA /* FiltersRouter.swift */; };
+		3261EF422BAC971600AEC1AA /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 3261EF412BAC971600AEC1AA /* Networking */; };
+		3261EF452BAC981D00AEC1AA /* ReviewsFeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF442BAC981D00AEC1AA /* ReviewsFeedService.swift */; };
+		3261EF492BAC991F00AEC1AA /* ReviewsFeedDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF482BAC991F00AEC1AA /* ReviewsFeedDto.swift */; };
+		3261EF4C2BAC99AA00AEC1AA /* ReviewsFeedEntryDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF4B2BAC99AA00AEC1AA /* ReviewsFeedEntryDto.swift */; };
+		3261EF4E2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF4D2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift */; };
+		3261EF502BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF4F2BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift */; };
+		3261EF522BAC9C9900AEC1AA /* ReviewsFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF512BAC9C9900AEC1AA /* ReviewsFeedRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +53,13 @@
 		3261EF372BAC764A00AEC1AA /* FiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
 		3261EF3A2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewControllerFactory.swift; sourceTree = "<group>"; };
 		3261EF3D2BAC899F00AEC1AA /* FiltersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersRouter.swift; sourceTree = "<group>"; };
+		3261EF3F2BAC96C000AEC1AA /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../Networking; sourceTree = "<group>"; };
+		3261EF442BAC981D00AEC1AA /* ReviewsFeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedService.swift; sourceTree = "<group>"; };
+		3261EF482BAC991F00AEC1AA /* ReviewsFeedDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedDto.swift; sourceTree = "<group>"; };
+		3261EF4B2BAC99AA00AEC1AA /* ReviewsFeedEntryDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedEntryDto.swift; sourceTree = "<group>"; };
+		3261EF4D2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedLabelContainerDto.swift; sourceTree = "<group>"; };
+		3261EF4F2BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedEntryAuthorDto.swift; sourceTree = "<group>"; };
+		3261EF512BAC9C9900AEC1AA /* ReviewsFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3261EF422BAC971600AEC1AA /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +77,7 @@
 		3261EEF02BAC3E7400AEC1AA = {
 			isa = PBXGroup;
 			children = (
+				3261EF3F2BAC96C000AEC1AA /* Networking */,
 				3261EEFB2BAC3E7400AEC1AA /* YourReviews */,
 				3261EEFA2BAC3E7400AEC1AA /* Products */,
 			);
@@ -119,6 +135,7 @@
 			children = (
 				3261EF1E2BAC48C700AEC1AA /* Factory */,
 				3261EF2B2BAC63DE00AEC1AA /* Router */,
+				3261EF432BAC980D00AEC1AA /* Service */,
 				3261EF142BAC40B000AEC1AA /* View */,
 				3261EF1B2BAC412000AEC1AA /* ViewModel */,
 			);
@@ -252,6 +269,43 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
+		3261EF432BAC980D00AEC1AA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF4A2BAC992100AEC1AA /* DTO */,
+				3261EF472BAC990500AEC1AA /* Request */,
+				3261EF462BAC98FF00AEC1AA /* Service */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		3261EF462BAC98FF00AEC1AA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF442BAC981D00AEC1AA /* ReviewsFeedService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		3261EF472BAC990500AEC1AA /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF512BAC9C9900AEC1AA /* ReviewsFeedRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		3261EF4A2BAC992100AEC1AA /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				3261EF482BAC991F00AEC1AA /* ReviewsFeedDto.swift */,
+				3261EF4F2BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift */,
+				3261EF4B2BAC99AA00AEC1AA /* ReviewsFeedEntryDto.swift */,
+				3261EF4D2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -268,6 +322,9 @@
 			dependencies = (
 			);
 			name = YourReviews;
+			packageProductDependencies = (
+				3261EF412BAC971600AEC1AA /* Networking */,
+			);
 			productName = YourReviews;
 			productReference = 3261EEF92BAC3E7400AEC1AA /* YourReviews.app */;
 			productType = "com.apple.product-type.application";
@@ -296,6 +353,9 @@
 				Base,
 			);
 			mainGroup = 3261EEF02BAC3E7400AEC1AA;
+			packageReferences = (
+				3261EF402BAC971600AEC1AA /* XCLocalSwiftPackageReference "../Networking" */,
+			);
 			productRefGroup = 3261EEFA2BAC3E7400AEC1AA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -333,10 +393,16 @@
 				3261EF2D2BAC63E900AEC1AA /* ReviewsListRouter.swift in Sources */,
 				3261EEFD2BAC3E7400AEC1AA /* AppDelegate.swift in Sources */,
 				3261EF3B2BAC767E00AEC1AA /* FiltersViewControllerFactory.swift in Sources */,
+				3261EF492BAC991F00AEC1AA /* ReviewsFeedDto.swift in Sources */,
 				3261EF1A2BAC40EF00AEC1AA /* ReviewListHeaderView.swift in Sources */,
+				3261EF4E2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift in Sources */,
 				3261EF352BAC73CF00AEC1AA /* FiltersViewController.swift in Sources */,
+				3261EF452BAC981D00AEC1AA /* ReviewsFeedService.swift in Sources */,
 				3261EF382BAC764A00AEC1AA /* FiltersViewModel.swift in Sources */,
+				3261EF522BAC9C9900AEC1AA /* ReviewsFeedRequest.swift in Sources */,
+				3261EF4C2BAC99AA00AEC1AA /* ReviewsFeedEntryDto.swift in Sources */,
 				3261EF2A2BAC638E00AEC1AA /* ReviewDetailsViewControllerFactory.swift in Sources */,
+				3261EF502BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +621,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		3261EF402BAC971600AEC1AA /* XCLocalSwiftPackageReference "../Networking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Networking;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3261EF412BAC971600AEC1AA /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Networking;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3261EEF12BAC3E7400AEC1AA /* Project object */;
 }
