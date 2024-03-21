@@ -10,6 +10,10 @@ final class ReviewsListViewController: UIViewController {
     private typealias SearchResultCellRegistration = UICollectionView.CellRegistration<ReviewCell, CellModel>
     private typealias SearchResultsHeaderRegistration = UICollectionView.SupplementaryRegistration<ReviewListHeaderView>
     
+    // MARK: - Events
+    
+    private let cellSelectionEventPublisher = PassthroughSubject<CellModel, Never>()
+    
     // MARK: - Properties
     
     private lazy var dataSource: DataSource = createDataSource()
@@ -63,6 +67,8 @@ final class ReviewsListViewController: UIViewController {
     }
     
     private func setUpBindings() {
+        viewModel.subscribeOnCellSelectionEvent(cellSelectionEventPublisher.eraseToAnyPublisher())
+        
         subscriptions = [
             viewModel.$reviews.receive(on: DispatchQueue.main).sink { [dataSource] reviews in
                 var snapshot = NSDiffableDataSourceSnapshot<Int, CellModel>()
@@ -75,25 +81,23 @@ final class ReviewsListViewController: UIViewController {
     }
     
     private func createDataSource() -> DataSource {
-        let cellRegistration = SearchResultCellRegistration { cell, _, model in
-            cell.setTitle(model.title)
-            cell.setRating(model.rating)
-            cell.setAuthor(model.author)
-            cell.setReview(model.review)
-        }
-        
-        let result = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-        }
-        
-        let headerRegistration = SearchResultsHeaderRegistration(
-            elementKind: sectionHeaderElementKind
-        ) { [weak self] header, _, _ in
+        let headerRegistration = SearchResultsHeaderRegistration(elementKind: sectionHeaderElementKind) { [weak self] header, _, _ in
             guard let model = self?.viewModel.header else { return }
             
             header.setFilterTitle(model.filterTitle)
             header.setTopWordsTitle(model.topWordsTitle)
             header.setTopWords(model.topWords)
+        }
+        
+        let cellRegistration = SearchResultCellRegistration { cell, _, model in
+            cell.setRating(model.rating)
+            cell.setAuthor(model.author)
+            cell.setTitle(model.title)
+            cell.setReview(model.review)
+        }
+        
+        let result = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
         result.supplementaryViewProvider = { view, _, index in
@@ -136,6 +140,8 @@ final class ReviewsListViewController: UIViewController {
 
 extension ReviewsListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if let model = dataSource.itemIdentifier(for: indexPath) {
+            cellSelectionEventPublisher.send(model)
+        }
     }
 }

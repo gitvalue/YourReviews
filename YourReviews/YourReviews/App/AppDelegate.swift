@@ -9,7 +9,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         window = UIWindow()
-        window?.rootViewController = ReviewsListViewControllerFactory().create()
+        window?.rootViewController = UINavigationController(rootViewController: ReviewsListViewControllerFactory().create())
         window?.makeKeyAndVisible()
         
         return true

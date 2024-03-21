@@ -26,16 +26,16 @@ final class ReviewCell: UICollectionViewCell {
     
     // MARK: - Public
     
-    func setTitle(_ text: String) {
-        titleLabel.text = text
-    }
-    
     func setRating(_ text: String) {
         ratingVersionLabel.text = text
     }
     
     func setAuthor(_ text: String) {
         authorLabel.text = text
+    }
+    
+    func setTitle(_ text: String) {
+        titleLabel.text = text
     }
     
     func setReview(_ text: String) {
@@ -50,15 +50,15 @@ final class ReviewCell: UICollectionViewCell {
         stackView.distribution = .equalSpacing
         stackView.alignment = .leading
         
-        stackView.addArrangedSubview(titleLabel)
-        titleLabel.font = .boldSystemFont(ofSize: 18)
-        titleLabel.numberOfLines = 2
-
         stackView.addArrangedSubview(ratingVersionLabel)
         ratingVersionLabel.font = .italicSystemFont(ofSize: 18)
         
         stackView.addArrangedSubview(authorLabel)
         authorLabel.font = .italicSystemFont(ofSize: 18)
+        
+        stackView.addArrangedSubview(titleLabel)
+        titleLabel.font = .boldSystemFont(ofSize: 18)
+        titleLabel.numberOfLines = 2
         
         stackView.addArrangedSubview(textPreviewLabel)
         textPreviewLabel.font = .systemFont(ofSize: 14)
@@ -69,9 +69,9 @@ final class ReviewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let margin: CGFloat = 8.0
         NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin),
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin)
         ])
     }
