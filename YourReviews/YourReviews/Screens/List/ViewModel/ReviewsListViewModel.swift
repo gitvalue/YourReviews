@@ -6,8 +6,8 @@ final class ReviewsListViewModel {
     // MARK: - Model
     
     struct ReviewsListHeaderModel {
-        let filterTitle: String
-        let topWordsTitle: String
+        let filterTitle: String = "Filters"
+        let topWordsTitle: String = "Top 3 words:"
         let topWords: String
         let filterButtonPressEventPublisher: PassthroughSubject<Void, Never>
     }
@@ -50,8 +50,6 @@ final class ReviewsListViewModel {
         self.filterButtonPressEventPublisher = filterButtonPressEventPublisher
         
         self.header = ReviewsListHeaderModel(
-            filterTitle: "Filters",
-            topWordsTitle: "Top words:",
             topWords: "Best, bank, ever",
             filterButtonPressEventPublisher: filterButtonPressEventPublisher
         )
@@ -102,15 +100,36 @@ final class ReviewsListViewModel {
     }
     
     private func filterDataSource(byRating filterRating: Int?) {
-        reviews = feed.filter { entry in
-            if let filterRating, let reviewRating = Int(entry.rating) {
-                return filterRating == reviewRating
-            } else {
-                return true
+        var reviews: [ReviewCellModel] = []
+        var wordsHistogram: [String: Int] = [:]
+        
+        for entry in feed {
+            if let filterRating, let reviewRating = Int(entry.rating), filterRating != reviewRating {
+                continue
             }
-        }.map { entry in
-            cellModel(fromDto: entry)
+            
+            let words = entry.content.components(separatedBy: .whitespacesAndNewlines).filter { 3 < $0.count }
+            for word in words {
+                wordsHistogram[word, default: 0] += 1
+            }
+            
+            reviews.append(cellModel(fromDto: entry))
         }
+        
+        let top3Words = wordsHistogram.sorted {
+            ($1.value == $0.value) ? ($1.key < $0.key) : ($1.value < $0.value)
+        }.prefix(
+            3
+        ).map {
+            $0.key
+        }
+        
+        header = ReviewsListHeaderModel(
+            topWords: top3Words.joined(separator: ", "),
+            filterButtonPressEventPublisher: filterButtonPressEventPublisher
+        )
+        
+        self.reviews = reviews
     }
         
     private func cellModel(fromDto dto: ReviewsFeedEntryDto) -> ReviewCellModel {
