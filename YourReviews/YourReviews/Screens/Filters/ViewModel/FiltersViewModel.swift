@@ -13,8 +13,8 @@ final class FiltersViewModel {
         let title: String = "Stars:"
         let stars: [StarModel]
         
-        fileprivate init(selectedStarIndex: Int?, maximumNumberOfStars: Int) {
-            self.stars = stride(from: 0, to: maximumNumberOfStars, by: 1).map { index in
+        fileprivate init(_ selectedStarIndex: Int?, _ validRange: ClosedRange<Int>) {
+            self.stars = stride(from: 0, to: validRange.upperBound - validRange.lowerBound + 1, by: 1).map { index in
                 if let selectedStarIndex {
                     return StarModel(isFilled: index <= selectedStarIndex)
                 } else {
@@ -28,24 +28,30 @@ final class FiltersViewModel {
     
     private var selectedStarIndex: Int? {
         didSet {
-            starsFilter = StarsFilterModel(selectedStarIndex: selectedStarIndex, maximumNumberOfStars: maximumNumberOfStars)
+            starsFilterModel = StarsFilterModel(selectedStarIndex, filter.validRange)
         }
     }
     
     @Published
-    private(set) var starsFilter: StarsFilterModel
+    private(set) var starsFilterModel: StarsFilterModel
     
     let applyButtonTitle: String = "Apply"
     
-    private let maximumNumberOfStars = 5
     private var subscriptions: [AnyCancellable] = []
+    private let filter: ReviewsFilterProtocol
     private let router: FiltersRouterProtocol
     
     // MARK: - Initialisers
     
-    init(router: FiltersRouterProtocol) {
+    init(filter: ReviewsFilterProtocol, router: FiltersRouterProtocol) {
+        self.filter = filter
         self.router = router
-        starsFilter = StarsFilterModel(selectedStarIndex: selectedStarIndex, maximumNumberOfStars: maximumNumberOfStars)
+        
+        if let rating = filter.rating {
+            selectedStarIndex = rating - 1
+        }
+        
+        starsFilterModel = StarsFilterModel(selectedStarIndex, filter.validRange)
     }
     
     // MARK: - Public
@@ -60,8 +66,16 @@ final class FiltersViewModel {
     }
     
     func subscribeToApplyButtonPressEvent(_ publisher: AnyPublisher<Void, Never>) {
-        publisher.sink { [router] in
-            router.close()
+        publisher.sink { [weak self] in
+            guard let self else { return }
+            
+            if let selectedStarIndex = self.selectedStarIndex {
+                self.filter.rating = self.filter.validRange.lowerBound + selectedStarIndex
+            } else {
+                self.filter.rating = nil
+            }
+            
+            self.router.close()
         }.store(
             in: &subscriptions
         )

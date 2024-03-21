@@ -1,7 +1,7 @@
 import UIKit
 
 protocol ReviewsListRouterProtocol: AnyObject {
-    func openFilters()
+    func openFilters(_ filter: ReviewsFilterProtocol)
     func openDetails(withRating rating: String, author: String, title: String, review: String)
 }
 
@@ -17,9 +17,9 @@ final class ReviewsListRouter: ReviewsListRouterProtocol {
         self.rootViewController = rootViewController
     }
     
-    func openFilters() {
+    func openFilters(_ filter: ReviewsFilterProtocol) {
         let factory = FiltersViewControllerFactory()
-        let viewController = factory.create()
+        let viewController = factory.create(withFilter: filter)
         viewController.sheetPresentationController?.detents = [
             .custom { _ in
                 return viewController.preferredContentSize.height

@@ -31,6 +31,7 @@
 		3261EF4E2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF4D2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift */; };
 		3261EF502BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF4F2BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift */; };
 		3261EF522BAC9C9900AEC1AA /* ReviewsFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF512BAC9C9900AEC1AA /* ReviewsFeedRequest.swift */; };
+		3261EF562BACB13700AEC1AA /* ReviewsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3261EF552BACB13700AEC1AA /* ReviewsFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		3261EF4D2BAC9A7200AEC1AA /* ReviewsFeedLabelContainerDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedLabelContainerDto.swift; sourceTree = "<group>"; };
 		3261EF4F2BAC9B2800AEC1AA /* ReviewsFeedEntryAuthorDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedEntryAuthorDto.swift; sourceTree = "<group>"; };
 		3261EF512BAC9C9900AEC1AA /* ReviewsFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFeedRequest.swift; sourceTree = "<group>"; };
+		3261EF552BACB13700AEC1AA /* ReviewsFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				3261EF372BAC764A00AEC1AA /* FiltersViewModel.swift */,
+				3261EF552BACB13700AEC1AA /* ReviewsFilter.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				3261EF3E2BAC899F00AEC1AA /* FiltersRouter.swift in Sources */,
 				3261EF242BAC5DA300AEC1AA /* ReviewDetailsViewController.swift in Sources */,
 				3261EF182BAC40D700AEC1AA /* ReviewCell.swift in Sources */,
+				3261EF562BACB13700AEC1AA /* ReviewsFilter.swift in Sources */,
 				3261EF312BAC64C600AEC1AA /* UIViewController+Extensions.swift in Sources */,
 				3261EF2D2BAC63E900AEC1AA /* ReviewsListRouter.swift in Sources */,
 				3261EEFD2BAC3E7400AEC1AA /* AppDelegate.swift in Sources */,

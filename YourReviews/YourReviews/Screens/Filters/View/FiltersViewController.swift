@@ -88,7 +88,7 @@ final class FiltersViewController: UIViewController {
         viewModel.subscribeToApplyButtonPressEvent(applyButtonPressEventPublisher.eraseToAnyPublisher())
         
         subscriptions = [
-            viewModel.$starsFilter.receive(on: DispatchQueue.main).sink { [weak self] model in
+            viewModel.$starsFilterModel.receive(on: DispatchQueue.main).sink { [weak self] model in
                 guard let self else { return }
                 
                 self.numberOfStarsTitleLabel.text = model.title

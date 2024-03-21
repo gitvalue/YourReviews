@@ -13,19 +13,10 @@ final class ReviewsListViewModel {
     }
     
     struct ReviewCellModel: Hashable {
-        let title: String
         let rating: String
         let author: String
+        let title: String
         let review: String
-        
-        let id: Int = Self.nextId()
-        
-        private static var seed: Int = 0
-        
-        static func nextId() -> Int {
-            seed += 1
-            return seed
-        }
     }
     
     // MARK: - Properties
@@ -34,13 +25,20 @@ final class ReviewsListViewModel {
     private(set) var header: ReviewsListHeaderModel
     
     @Published
-    private(set) var reviews: [ReviewCellModel] = stride(from: 0, to: 20, by: 1).map { _ in .init(title: "Title", rating: "⭐️⭐️⭐️", author: "Me", review: "Good") }
+    private(set) var reviews: [ReviewCellModel] = []
     
     private let filterButtonPressEventPublisher: PassthroughSubject<Void, Never>
+    
+    private var feed: [ReviewsFeedEntryDto] = [] {
+        didSet {
+            filterDataSource(byRating: filter.rating)
+        }
+    }
     
     private var subscriptions: [AnyCancellable] = []
     private let service: ReviewsFeedServiceProtocol
     private let router: ReviewsListRouterProtocol
+    private let filter = ReviewsFilter(validRange: 1...5)
     
     // MARK: - Initialisers
     
@@ -59,15 +57,9 @@ final class ReviewsListViewModel {
         )
         
         subscribeToFilterButtonPressEvent()
+        subscribeToFilterChangeEvent()
         
-        service.getReviewsFeed(forAppWithId: "474495017").sink(
-            receiveCompletion: { _ in },
-            receiveValue: { feed in
-                while false {}
-            }
-        ).store(
-            in: &subscriptions
-        )
+        fetchFeed()
     }
     
     // MARK: - Public
@@ -80,11 +72,58 @@ final class ReviewsListViewModel {
         )
     }
     
+    // MARK: - Private
+    
     private func subscribeToFilterButtonPressEvent() {
-        filterButtonPressEventPublisher.sink { [router] in
-            router.openFilters()
+        filterButtonPressEventPublisher.sink { [router, filter] in
+            router.openFilters(filter)
         }.store(
             in: &subscriptions
+        )
+    }
+    
+    private func subscribeToFilterChangeEvent() {
+        filter.$rating.sink { [weak self] rating in
+            self?.filterDataSource(byRating: rating)
+        }.store(
+            in: &subscriptions
+        )
+    }
+    
+    private func fetchFeed() {
+        service.getReviewsFeed(forAppWithId: "474495017").sink(
+            receiveCompletion: { _ in },
+            receiveValue: { [weak self] feed in
+                self?.feed = feed
+            }
+        ).store(
+            in: &subscriptions
+        )
+    }
+    
+    private func filterDataSource(byRating filterRating: Int?) {
+        reviews = feed.filter { entry in
+            if let filterRating, let reviewRating = Int(entry.rating) {
+                return filterRating == reviewRating
+            } else {
+                return true
+            }
+        }.map { entry in
+            cellModel(fromDto: entry)
+        }
+    }
+        
+    private func cellModel(fromDto dto: ReviewsFeedEntryDto) -> ReviewCellModel {
+        let numberOfStars = Int(dto.rating) ?? 0
+        let ratingPrefix = Array<String>(repeating: "⭐️", count: numberOfStars).joined()
+        let ratingSuffix = "(ver: \(dto.version))"
+        let rating = ratingPrefix + ratingSuffix
+        
+        return ReviewCellModel(
+            rating: rating,
+            author: dto.author.name,
+            title: dto.title,
+            review: dto.content
         )
     }
 }
