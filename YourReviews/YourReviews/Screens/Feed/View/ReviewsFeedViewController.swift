@@ -61,7 +61,7 @@ final class ReviewsFeedViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        headerView.layer.shadowColor = UIColor.black.cgColor
+        headerView.layer.shadowColor = UIColor.systemGray.cgColor
         headerView.layer.shadowOpacity = 0.2
         headerView.layer.shadowOffset = CGSize(width: 0, height: 3)
         headerView.layer.shadowRadius = 1
