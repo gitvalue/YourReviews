@@ -1,7 +1,8 @@
 import Combine
 import UIKit
 
-final class ReviewListHeaderView: UIView {
+/// Reviews feed screen header
+final class ReviewsFeedHeaderView: UIView {
     
     // MARK: - Properties
     
@@ -38,18 +39,26 @@ final class ReviewListHeaderView: UIView {
         filterButton.layer.cornerRadius = filterButton.frame.height / 2
     }
     
-    func setFilterTitle(_ text: String) {
+    /// Displays filter button title
+    /// - Parameter text: Filter button title text
+    func setFilterButtonTitle(_ text: String) {
         filterButton.setTitle(text, for: .normal)
     }
     
+    /// Displays top occuring words title text
+    /// - Parameter text: Top words title text
     func setTopWordsTitle(_ text: String) {
         topWordsTitleLabel.text = text
     }
     
+    /// Displays top occuring words
+    /// - Parameter text: Top occuring words
     func setTopWords(_ text: String) {
         topWordsLabel.text = text
     }
     
+    /// Assigns filter button press event publisher
+    /// - Parameter publisher: Filter button press event publisher
     func setFilterButtonPressEventPublisher(_ publisher: PassthroughSubject<Void, Never>) {
         filterButtonPressEventPublisher = publisher
     }

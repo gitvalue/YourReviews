@@ -1,5 +1,6 @@
 import Networking
 
+/// AppStore reviews feed request model
 struct ReviewsFeedRequest: Request {
     struct Response: Decodable {
         let feed: ReviewsFeedDto
@@ -16,6 +17,8 @@ struct ReviewsFeedRequest: Request {
     
     private let appId: String
     
+    /// Designated initialiser
+    /// - Parameter appId: Application identifier
     init(appId: String) {
         self.appId = appId
     }

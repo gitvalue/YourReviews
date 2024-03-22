@@ -1,21 +1,32 @@
 import Combine
 import Foundation
 
-final class ReviewsListViewModel {
+/// Reviews feed business logic
+final class ReviewsFeedViewModel {
     
     // MARK: - Model
     
-    struct ReviewsListHeaderModel {
-        let filterTitle: String = "Filters"
+    /// Reviews feed screen header model
+    struct ReviewsFeedHeaderModel {
+        /// Filter button title text
+        let filterButtonTitle: String = "Filters"
+        /// Top occuring words title text
         let topWordsTitle: String = "Top 3 words:"
+        /// Top occuring words
         let topWords: String
+        /// Filter button press event publisher
         let filterButtonPressEventPublisher: PassthroughSubject<Void, Never>
     }
     
+    /// Reviews feed list cell model
     struct ReviewCellModel: Hashable {
+        /// Rating text
         let rating: String
+        /// Author name
         let author: String
+        /// Review title text
         let title: String
+        /// Review contents text
         let review: String
         
         fileprivate let dto: ReviewsFeedEntryDto
@@ -32,16 +43,20 @@ final class ReviewsListViewModel {
     
     // MARK: - Properties
     
+    /// Show alert event publisher
     let alertEventPublisher = PassthroughSubject<(title: String, mesage: String, action: String), Never>()
+    /// End refreshing event publisher
     let refreshEndEventPublisher = PassthroughSubject<Void, Never>()
     
+    /// Reviews feed list header model
     @Published
-    private(set) var header: ReviewsListHeaderModel
+    private(set) var header: ReviewsFeedHeaderModel?
     
+    /// Reviews list models
     @Published
     private(set) var reviews: [ReviewCellModel] = []
     
-    private let filterButtonPressEventPublisher: PassthroughSubject<Void, Never>
+    private let filterButtonPressEventPublisher = PassthroughSubject<Void, Never>()
     
     private var feed: [ReviewsFeedEntryDto] = [] {
         didSet {
@@ -51,22 +66,18 @@ final class ReviewsListViewModel {
     
     private var subscriptions: [AnyCancellable] = []
     private let service: ReviewsFeedServiceProtocol
-    private let router: ReviewsListRouterProtocol
+    private let router: ReviewsFeedRouterProtocol
     private let filter = ReviewsFilter(validRange: 1...5)
     
     // MARK: - Initialisers
     
-    init(service: ReviewsFeedServiceProtocol, router: ReviewsListRouterProtocol) {
+    /// Designated initialiser
+    /// - Parameters:
+    ///   - service: App reviews feed service
+    ///   - router: Reviews feed navigation manager object
+    init(service: ReviewsFeedServiceProtocol, router: ReviewsFeedRouterProtocol) {
         self.service = service
         self.router = router
-        
-        let filterButtonPressEventPublisher = PassthroughSubject<Void, Never>()
-        self.filterButtonPressEventPublisher = filterButtonPressEventPublisher
-        
-        self.header = ReviewsListHeaderModel(
-            topWords: "Best, bank, ever",
-            filterButtonPressEventPublisher: filterButtonPressEventPublisher
-        )
         
         subscribeToFilterButtonPressEvent()
         subscribeToFilterChangeEvent()
@@ -76,7 +87,9 @@ final class ReviewsListViewModel {
     
     // MARK: - Public
     
-    func subscribeOnCellSelectionEvent(_ publisher: AnyPublisher<ReviewCellModel, Never>) {
+    /// Subscribes view model to cell selection event
+    /// - Parameter publisher: Cell selection event publisher
+    func subscribeToCellSelectionEvent(_ publisher: AnyPublisher<ReviewCellModel, Never>) {
         publisher.sink { [router] model in
             router.openDetails(model.dto)
         }.store(
@@ -84,7 +97,9 @@ final class ReviewsListViewModel {
         )
     }
     
-    func subscribeOnPullToRefreshEvent(_ publisher: AnyPublisher<Void, Never>) {
+    /// Subscribes view model to list refresh request event
+    /// - Parameter publisher: List refresh request even publisher
+    func subscribeToPullToRefreshEvent(_ publisher: AnyPublisher<Void, Never>) {
         publisher.sink { [weak self] in
             self?.fetchFeed()
         }.store(
@@ -136,7 +151,12 @@ final class ReviewsListViewModel {
                 continue
             }
             
-            let words = entry.content.components(separatedBy: .whitespacesAndNewlines).filter { 3 < $0.count }
+            let words = entry.content.components(
+                separatedBy: .whitespacesAndNewlines
+            ).filter {
+                3 < $0.count
+            }
+            
             for word in words {
                 wordsHistogram[word, default: 0] += 1
             }
@@ -152,7 +172,7 @@ final class ReviewsListViewModel {
             $0.key
         }
         
-        header = ReviewsListHeaderModel(
+        header = ReviewsFeedHeaderModel(
             topWords: top3Words.joined(separator: ", "),
             filterButtonPressEventPublisher: filterButtonPressEventPublisher
         )

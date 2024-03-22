@@ -1,11 +1,17 @@
 import UIKit
 
-protocol ReviewsListRouterProtocol: AnyObject {
+/// Reviews feed screen navigation manager interface
+protocol ReviewsFeedRouterProtocol: AnyObject {
+    /// Opens filter settings screen
+    /// - Parameter filter: Filter settings object
     func openFilters(_ filter: ReviewsFilterProtocol)
+    
+    /// Opens review details screen
+    /// - Parameter review: Review details DTO
     func openDetails(_ review: ReviewsFeedEntryDto)
 }
 
-final class ReviewsListRouter: ReviewsListRouterProtocol {
+final class ReviewsFeedRouter: ReviewsFeedRouterProtocol {
     
     // MARK: - Properties
     
@@ -13,6 +19,8 @@ final class ReviewsListRouter: ReviewsListRouterProtocol {
     
     // MARK: - Public
     
+    /// Assigns root view controller, from which navigation happens
+    /// - Parameter rootViewController: Root view controller
     func setRootViewController(_ rootViewController: UIViewController) {
         self.rootViewController = rootViewController
     }

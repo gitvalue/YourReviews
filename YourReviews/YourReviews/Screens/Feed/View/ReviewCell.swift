@@ -1,5 +1,6 @@
 import UIKit
 
+/// Reviews feed list cell
 final class ReviewCell: UICollectionViewCell {
     
     // MARK: - Properties
@@ -27,18 +28,26 @@ final class ReviewCell: UICollectionViewCell {
     
     // MARK: - Public
     
+    /// Displays rating text
+    /// - Parameter text: Rating text
     func setRating(_ text: String) {
         ratingVersionLabel.text = text
     }
     
+    /// Displays author name
+    /// - Parameter text: Author name
     func setAuthor(_ text: String) {
         authorLabel.text = text
     }
     
+    /// Displays review title
+    /// - Parameter text: Review title text
     func setTitle(_ text: String) {
         titleLabel.text = text
     }
     
+    /// Displays review contents
+    /// - Parameter text: Review contents text
     func setReview(_ text: String) {
         textPreviewLabel.text = text
     }
@@ -51,35 +60,29 @@ final class ReviewCell: UICollectionViewCell {
         stackView.distribution = .equalSpacing
         stackView.alignment = .leading
         stackView.spacing = 8.0
-        
-//        stackView.addArrangedSubview(separatorView)
-//        separatorView.backgroundColor = .separator
-        
+                
         stackView.addArrangedSubview(ratingVersionLabel)
-        ratingVersionLabel.font = .italicSystemFont(ofSize: 18)
+        ratingVersionLabel.font = .italicSystemFont(ofSize: 18.0)
         
         stackView.addArrangedSubview(authorLabel)
-        authorLabel.font = .italicSystemFont(ofSize: 18)
+        authorLabel.font = .italicSystemFont(ofSize: 18.0)
         
         stackView.addArrangedSubview(titleLabel)
-        titleLabel.font = .boldSystemFont(ofSize: 18)
+        titleLabel.font = .boldSystemFont(ofSize: 18.0)
         titleLabel.numberOfLines = 2
         
         stackView.addArrangedSubview(textPreviewLabel)
-        textPreviewLabel.font = .systemFont(ofSize: 14)
+        textPreviewLabel.font = .systemFont(ofSize: 14.0)
         textPreviewLabel.numberOfLines = 3
     }
     
     private func setUpConstraints() {
-        
-        
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        let margin: CGFloat = 8.0
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -margin),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.0),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.0),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0)
         ])
     }
 }

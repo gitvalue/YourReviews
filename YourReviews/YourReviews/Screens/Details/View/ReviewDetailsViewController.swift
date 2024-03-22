@@ -1,6 +1,7 @@
 import Combine
 import UIKit
 
+/// Review details screen
 final class ReviewDetailsViewController: UIViewController {
     
     // MARK: - Properties
@@ -16,6 +17,8 @@ final class ReviewDetailsViewController: UIViewController {
     
     // MARK: - Initialiserss
     
+    /// Designated initialiser
+    /// - Parameter viewModel: Review details view model
     init(viewModel: ReviewDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -56,7 +59,7 @@ final class ReviewDetailsViewController: UIViewController {
         
         scrollView.addSubview(titleLabel)
         titleLabel.numberOfLines = 0
-        titleLabel.font = .boldSystemFont(ofSize: 22)
+        titleLabel.font = .boldSystemFont(ofSize: 22.0)
         
         scrollView.addSubview(contentLabel)
         contentLabel.numberOfLines = 0

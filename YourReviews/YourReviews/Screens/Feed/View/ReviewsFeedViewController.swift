@@ -1,11 +1,12 @@
 import Combine
 import UIKit
 
-final class ReviewsListViewController: UIViewController {
+/// Reviews feed screen
+final class ReviewsFeedViewController: UIViewController {
     
     // MARK: - Model
     
-    private typealias CellModel = ReviewsListViewModel.ReviewCellModel
+    private typealias CellModel = ReviewsFeedViewModel.ReviewCellModel
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, CellModel>
     private typealias SearchResultCellRegistration = UICollectionView.CellRegistration<ReviewCell, CellModel>
     
@@ -16,19 +17,21 @@ final class ReviewsListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let headerView = ReviewListHeaderView()
+    private let headerView = ReviewsFeedHeaderView()
     
     private lazy var dataSource: DataSource = createDataSource()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-    private let sectionHeaderElementKind = "ReviewsListViewController.sectionHeaderElementKind"
+    private let sectionHeaderElementKind = "ReviewsFeedViewController.sectionHeaderElementKind"
     
     private var subscriptions: [AnyCancellable] = []
     
-    private let viewModel: ReviewsListViewModel
+    private let viewModel: ReviewsFeedViewModel
     
     // MARK: - Initialisers
     
-    init(viewModel: ReviewsListViewModel) {
+    /// Designated initialiser
+    /// - Parameter viewModel: Reviews feed view model
+    init(viewModel: ReviewsFeedViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -96,8 +99,8 @@ final class ReviewsListViewController: UIViewController {
     }
     
     private func setUpBindings() {
-        viewModel.subscribeOnPullToRefreshEvent(pullToRefreshEventPublisher.eraseToAnyPublisher())
-        viewModel.subscribeOnCellSelectionEvent(cellSelectionEventPublisher.eraseToAnyPublisher())
+        viewModel.subscribeToPullToRefreshEvent(pullToRefreshEventPublisher.eraseToAnyPublisher())
+        viewModel.subscribeToCellSelectionEvent(cellSelectionEventPublisher.eraseToAnyPublisher())
         
         subscriptions = [
             viewModel.refreshEndEventPublisher.receive(on: DispatchQueue.main).sink { [collectionView] in
@@ -106,8 +109,12 @@ final class ReviewsListViewController: UIViewController {
             viewModel.alertEventPublisher.receive(on: DispatchQueue.main).sink { [weak self] model in
                 self?.showAlert(model.title, model.mesage, model.action)
             },
-            viewModel.$header.receive(on: DispatchQueue.main).sink { [headerView] model in
-                headerView.setFilterTitle(model.filterTitle)
+            viewModel.$header.receive(
+                on: DispatchQueue.main
+            ).compactMap {
+                $0
+            }.sink { [headerView] model in
+                headerView.setFilterButtonTitle(model.filterButtonTitle)
                 headerView.setTopWordsTitle(model.topWordsTitle)
                 headerView.setTopWords(model.topWords)
                 headerView.setFilterButtonPressEventPublisher(model.filterButtonPressEventPublisher)
@@ -158,7 +165,7 @@ final class ReviewsListViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegate
 
-extension ReviewsListViewController: UICollectionViewDelegate {
+extension ReviewsFeedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let model = dataSource.itemIdentifier(for: indexPath) {
             cellSelectionEventPublisher.send(model)

@@ -1,10 +1,15 @@
 import Combine
 import Networking
 
+/// Reviews feed service interface
 protocol ReviewsFeedServiceProtocol: AnyObject {
+    /// Fetches reviews feed
+    /// - Parameter id: Application identifier
+    /// - Returns: Reviews feed DTO future
     func getReviewsFeed(forAppWithId id: String) -> AnyPublisher<[ReviewsFeedEntryDto], Error>
 }
 
+/// Reviews feed service
 final class ReviewsFeedService: ReviewsFeedServiceProtocol {
     
     // MARK: - Properties
@@ -13,6 +18,8 @@ final class ReviewsFeedService: ReviewsFeedServiceProtocol {
     
     // MARK: - Initialiser
     
+    /// Designated initialiser
+    /// - Parameter requesterConstructor: Network requester constructor
     init(requesterConstructor: (_ apiUrl: String) -> (Requesting)) {
         self.requester = requesterConstructor("https://itunes.apple.com/nl/rss")
     }

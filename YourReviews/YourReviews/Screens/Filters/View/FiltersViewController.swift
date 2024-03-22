@@ -1,6 +1,7 @@
 import Combine
 import UIKit
 
+/// Filter settings screen
 final class FiltersViewController: UIViewController {
     
     // MARK: - Events
@@ -19,6 +20,8 @@ final class FiltersViewController: UIViewController {
     
     // MARK: - Initialisers
     
+    /// Designated initialiser
+    /// - Parameter viewModel: Filter settings view model
     init(viewModel: FiltersViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
