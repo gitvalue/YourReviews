@@ -2,6 +2,7 @@ import Combine
 import Foundation
 
 /// Reviews filter settings interface
+/// sourcery: AutoMockable
 protocol ReviewsFilterProtocol: AnyObject {
     /// Range of acceptable rating values
     var validRange: ClosedRange<Int> { get }

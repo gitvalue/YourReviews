@@ -39,6 +39,12 @@ final class ReviewsFeedViewModel {
             review = formatter.content
             self.dto = dto
         }
+        
+        #if TESTING
+        static func model(fromDto dto: ReviewsFeedEntryDto) -> ReviewCellModel {
+            return ReviewCellModel(dto: dto)
+        }
+        #endif
     }
     
     // MARK: - Properties

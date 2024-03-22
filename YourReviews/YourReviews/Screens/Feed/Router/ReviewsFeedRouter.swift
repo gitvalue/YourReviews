@@ -1,6 +1,7 @@
 import UIKit
 
 /// Reviews feed screen navigation manager interface
+/// sourcery: AutoMockable
 protocol ReviewsFeedRouterProtocol: AnyObject {
     /// Opens filter settings screen
     /// - Parameter filter: Filter settings object

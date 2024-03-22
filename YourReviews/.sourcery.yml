@@ -1,0 +1,11 @@
+sources:
+  - YourReviews
+templates:
+  - ../Sourcery/Templates/AutoMockable.stencil
+output:
+  YourReviewsTests/AutoMockable.generated.swift
+args:
+  autoMockableImports:
+    - Combine
+  autoMockableTestableImports:
+    - YourReviews

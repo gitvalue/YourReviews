@@ -1,6 +1,7 @@
 import UIKit
 
 /// Filter settings screen navigation manager interface
+/// sourcery: AutoMockable
 protocol FiltersRouterProtocol: AnyObject {
     /// Closes filter settings screen
     func close()

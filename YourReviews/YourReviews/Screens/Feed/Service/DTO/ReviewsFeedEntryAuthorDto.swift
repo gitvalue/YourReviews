@@ -8,6 +8,10 @@ struct ReviewsFeedEntryAuthorDto: Decodable, Hashable {
         let labelContainer = try container.decode(ReviewsFeedLabelContainerDto.self, forKey: .name)
         self.name = labelContainer.label
     }
+    
+    init(name: String) {
+        self.name = name
+    }
 }
 
 // MARK: - CodingKeys

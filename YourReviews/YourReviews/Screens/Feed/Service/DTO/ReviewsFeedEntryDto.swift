@@ -15,6 +15,20 @@ struct ReviewsFeedEntryDto: Decodable, Hashable {
         title = try container.decode(ReviewsFeedLabelContainerDto.self, forKey: .title).label
         content = try container.decode(ReviewsFeedLabelContainerDto.self, forKey: .content).label
     }
+    
+    init(
+        author: ReviewsFeedEntryAuthorDto,
+        version: String,
+        rating: String,
+        title: String,
+        content: String
+    ) {
+        self.author = author
+        self.version = version
+        self.rating = rating
+        self.title = title
+        self.content = content
+    }
 }
 
 // MARK: - CodingKeys

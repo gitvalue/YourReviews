@@ -2,6 +2,7 @@ import Combine
 import Networking
 
 /// Reviews feed service interface
+/// sourcery: AutoMockable
 protocol ReviewsFeedServiceProtocol: AnyObject {
     /// Fetches reviews feed
     /// - Parameter id: Application identifier
